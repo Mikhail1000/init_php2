@@ -1,16 +1,9 @@
 <?php
+require_once "InterfaceTask.php";
 
-class Task
+class Task implements InterfaceTask
 {
-    const STATUS_NEW = 'new';
-    const STATUS_CANCEL = 'canceled';
-    const STATUS_IN_WORK = 'in_work';
-    const STATUS_DONE = 'done';
-    const STATUS_LOSS = 'loss';
-    const ACTION_CANCEL = 'action_cancel';
-    const ACTION_RESPONSE = 'action_response';
-    const ACTION_DONE = 'action_done';
-    const ACTION_DENY = 'action_deny';
+
     private string $status;
     private int $id_client;
     private int $id_executor;
@@ -18,12 +11,16 @@ class Task
     /**
      *
      * @param int $id_client
+     * @param int $id_executor
      */
-    public function __construct(int $id_client)
+    public function __construct(int $id_client, int $id_executor)
     {
         $this->status = "Новое";
         $this->id_client = $id_client;
+        $this->id_executor = $id_executor;
     }
+
+
 
     public function hello()
     {
@@ -54,4 +51,43 @@ class Task
         ]);
     }
 
+    /**
+     * @param string $action
+     * @return string|void
+     */
+    public function getStatusForAction(string $action)
+    {
+        switch ($action)
+        {
+            case self::ACTION_CANCEL:
+                return self::STATUS_CANCEL."\n";
+            case self::ACTION_RESPONSE:
+                return self::STATUS_IN_WORK."\n";
+            case self::ACTION_DONE:
+                return self::STATUS_DONE."\n";
+            case self::ACTION_DENY:
+                return self::STATUS_LOSS."\n";
+        }
+    }
+
+    /**
+     * @param $status
+     * @return array|string[]|void
+     */
+    public function getAvailableActions($status): array
+    {
+        switch ($status)
+        {
+            case self::STATUS_DONE:
+                return [];
+            case self::STATUS_CANCEL:
+                return [];
+            case self::STATUS_NEW:
+                return [self::ACTION_CANCEL, self::ACTION_RESPONSE];
+            case self::STATUS_IN_WORK:
+                return [self::ACTION_DONE, self::ACTION_DENY];
+            case self::STATUS_LOSS:
+                return [];
+        }
+    }
 }
