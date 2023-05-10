@@ -60,13 +60,13 @@ class Task implements InterfaceTask
         switch ($action)
         {
             case self::ACTION_CANCEL:
-                return self::STATUS_CANCEL."\n";
+                return self::STATUS_CANCEL;
             case self::ACTION_RESPONSE:
-                return self::STATUS_IN_WORK."\n";
+                return self::STATUS_IN_WORK;
             case self::ACTION_DONE:
-                return self::STATUS_DONE."\n";
+                return self::STATUS_DONE;
             case self::ACTION_DENY:
-                return self::STATUS_LOSS."\n";
+                return self::STATUS_LOSS;
         }
     }
 
