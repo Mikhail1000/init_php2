@@ -1,5 +1,8 @@
 <?php
 require_once "vendor/autoload.php";
+
+use taskforce\business\Task;
+
 $task1 = new Task(1, 2);
 
 $task1 ->getStatusMap();
